@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Game</title>
+  <style> @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'); </style>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+	<script src="modules/OmegaNum.js"></script>
+</head>
+<body onload="Load()">
+  <nav>
+    <ul>
+      <li><button id="chickbutton" class="active" onclick="Switch('chick')">Eggs</button></li>
+      <li><button id="moneybutton" onclick="Switch('money')">Money</button></li>
+      <li><button id="timebutton" onclick="Switch('time')">Time</button></li>
+      <li><button id="achievementsbutton" onclick="Switch('achievements')">Achievements</button></li>
+      <li><button id="settingsbutton" onclick="Switch('settings')">Settings</button></li>
+    </ul>
+  </nav>
+  <div id="chick">
+    <div class="title">Eggs: <span id="score">0</span></div> <br>
+    <span id="eggmultiplier">x1</span> Chickens <br>
+    Amount: <span id="chickens">1</span>/<span id="coopsize">10</span> <button id="coop" onclick="Coop()">Upgrade Coop<br>Cost: <span id="coopprice">100</span> eggs</button> <br>
+    <button id="hatch" onclick="Hatch()">Egg Mode</button> <br>
+    Chance to hatch: <span id="hatchchance">10</span>% <br>
+    Eggs to hatch: <span id="hatchamount">1</span>
+    <div class="upgrades">
+      <div class=title>Upgrades</div>
+      <button id="upgradee1" onclick="Upgrade('e1')">Cormfortable Nests<br>Cost: 30 eggs<br>Effect: 5% more likely to hatch an egg.</button>
+      <button id="upgradee2" onclick="Upgrade('e2')">Heat Lamps<br>Cost: 90 eggs<br>Effect: 10% more likely to hatch an egg.</button>
+      <button id="upgradee3" onclick="Upgrade('e3')">Precisely Rounded Nests<br>Cost: 150 eggs<br>Effect: 15% more likely to hatch an egg.</button>
+      <button id="upgradee4" onclick="Upgrade('e4')">Larger Incubators<br>Cost: 500 eggs<br>Effect: Hatch 3 eggs at a time instead of 1</button>
+      <button id="upgradee5" onclick="Upgrade('e5')">Sell Your Soul<br>Cost: 1000 eggs<br>Effect: Unlocks the ability to sell your eggs for money!</button>
+      <button id="upgradee6" onclick="Upgrade('e6')" style="display: none">Dozen-inator<br>Cost: 2000 eggs<br>Effect: Hatch nine more eggs at a time.</button>
+      <button id="upgradee7" onclick="Upgrade('e7')" style="display: none">Extortionate<br>Cost: 5000 eggs<br>Effect: Eggs sell for twice as much.</button>
+      <button id="upgradee8" onclick="Upgrade('e8')" style="display: none">Egg Factory<br>Cost: 10000 eggs<br>Effect: Hatch 20 more eggs at a time.</button>
+      <button id="upgradee9" onclick="Upgrade('e9')" style="display: none">More Comfortable Nests<br>Cost: 15000 eggs<br>Effect: 30% more likely to hatch an egg.</button>
+      <button id="upgradee10" onclick="Upgrade('e10')" style="display: none">Time Manipulation<br>Cost: 20000 eggs<br>Effect: Unlock the ability to warp time. Time goes by 2x as fast</button>
+    </div>
+  </div>
+  <div id="money" style="display: none">
+    <div class="title">Money: <span id="monies">0</span></div>
+    <p style="color: red;font-size: small;">NOTE: This resets your eggs and chickens when you buy it.</p>
+    <button id="sell" onclick="Sell()" disabled>Sell Eggs</button> <br>
+    <div class="title">Shop</div>
+    <button id="upgradem1" onclick="Upgrade('m1')">Egg Doubler<br>Cost: 1 money<br>Effect: 2x multiplier to eggs.</button>
+    <button id="upgradem2" onclick="Upgrade('m2')">Hardworking Chickens<br>Cost: 5 money<br>Effect: Gain a boost to egg generation based on money. Currently: x<span id="m2effect">1</span></button>
+    <button id="upgradem3" onclick="Upgrade('m3')">Golden Incubators<br>Cost: 10 money<br>Effect: 30% more likely to hatch an egg.</button>
+    <button id="upgradem4" onclick="Upgrade('m4')">Egg Factory<br>Cost: 50 money<br>Effect: 3x multiplier to eggs AND the 2nd upgrade formula.</button>
+  </div>
+  <div id="time" style="display: none">
+    <div class="title">Time Magnifiers: <span id="magnifiers">0</span></div>
+    <p>Which are magnifying time by x<span id="timeboost">1</span></p>
+    <button id="timewarp" onclick="Warp()">Time Warp</button>
+    <div class="title">Minitrembles: <span id="minitrembles">0</span></div>
+    <p>Are being produced by your time magnifiers at a rate of <span id="tremblerate">0</span>/s</p>
+    <p>Which are boosting egg gain by 2^<span id="minitrembleboost">0</span> (x<span id="trembleeffect">1</span>)</div>
+  </div>
+  <div id="achievements" style="display: none">
+    <div class="title" style="margin-bottom: 35px">Achievements</div>
+    <div class="achievement-container">
+      <div class="achievement-block">
+        <div class="achievement-icon" style="background-image: url(img/10.webp)"></div>
+        <div class="achievement-tooltip">Have 10 chickens.</div>
+      </div>
+      <div class="achievement-block">
+        <div class="achievement-icon"></div>
+        <div class="achievement-tooltip">Upgrade your coop.</div>
+      </div>
+      <div class="achievement-block">
+        <div class="achievement-icon"></div>
+        <div class="achievement-tooltip">Buy all of the egg upgrades. (For now...)</div>
+      </div>
+      <div class="achievement-block">
+        <div class="achievement-icon"></div>
+        <div class="achievement-tooltip">Get 1 money. Effect: More upgrades!</div>
+      </div>
+      <div class="achievement-block">
+        <div class="achievement-icon"></div>
+        <div class="achievement-tooltip">Have a 100% hatch chance</div>
+      </div>
+      <div class="achievement-block">
+        <div class="achievement-icon"></div>
+        <div class="achievement-tooltip">Have 111 chickens.</div>
+      </div>
+      <div class="achievement-block">
+        <div class="achievement-icon"></div>
+        <div class="achievement-tooltip">Buy all of the new upgrades.</div>
+      </div>
+      <!-- Add more achievement-block elements here -->
+    </div>
+  </div>
+  <div id="settings" style="display: none">
+    <div class="title">Settings</div> <br>
+    <button id="save" onclick="Save()">Save Game</button> <br>
+    <button id="load" onclick="Load()">Load Game</button> <br>
+    <button id="reset" onclick="Reset()">Reset Game</button> <br>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
